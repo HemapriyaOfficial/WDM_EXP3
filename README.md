@@ -43,17 +43,27 @@ from collections import defaultdict
 from itertools import combinations
 # Function to generate candidate k-item sequences
 def generate_candidates(dataset, k):
-
-
-    /WRITE YOUR CODE HERE/
+candidates = defaultdict(int)
+    for seq in dataset:
+        for comb in combinations(seq, k):
+            candidates[comb] += 1
+    return {item: support for item, support in candidates.items() if support >=min_support}
 
 
 #Function to perform GSP algorithm
 def gsp(dataset, min_support):
-
-
-  /WRITE YOUR CODE HERE/
-
+ # Initialize frequent patterns dictionary
+    frequent_patterns = defaultdict(int)
+    k = 1
+    while True:
+        candidates = generate_candidates(dataset, k)
+        # Prune candidates with support less than min_support
+        candidates = {pattern: support for pattern, support in candidates.items() if support >= min_support}
+        if not candidates:
+            break
+        frequent_patterns.update(candidates)
+        k += 1
+    return frequent_patterns
 
 #Example dataset for each category
 top_wear_data = [
@@ -103,6 +113,8 @@ else:
 ```
 ### Output:
 
+![WhatsApp Image 2024-09-14 at 09 13 20_a5a2722c](https://github.com/user-attachments/assets/68bc8d88-2c16-427b-ab59-8e8434915900)
+
 ### Visualization:
 ```python
 import matplotlib.pyplot as plt
@@ -131,5 +143,11 @@ visualize_patterns_line(party_wear_result, 'Party Wear')
 ```
 ### Output:
 
+![WhatsApp Image 2024-09-14 at 09 12 17_a12116e1](https://github.com/user-attachments/assets/b874e78e-dc9b-47ca-94cd-9473b78a33ae)
+
+
+![WhatsApp Image 2024-09-14 at 09 12 50_1aa2d48c](https://github.com/user-attachments/assets/dc8fc8b4-3593-4a7c-8b0b-20ac7feb6efe)
 
 ### Result:
+
+Thus the implementation of the GSP algorithm in python has been successfully executed.
